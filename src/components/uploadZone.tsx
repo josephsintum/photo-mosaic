@@ -1,14 +1,14 @@
 import { type Component, createSignal } from 'solid-js';
 
-interface UploadZoneProps {
-  onImageUpload: (data: ImageData) => void;
-}
-
 export interface ImageData {
   file: File;
   image: HTMLImageElement;
   width: number;
   height: number;
+}
+
+interface UploadZoneProps {
+  onImageUpload: (data: ImageData) => void;
 }
 
 const UploadZone: Component<UploadZoneProps> = props => {

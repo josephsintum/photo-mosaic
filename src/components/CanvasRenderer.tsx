@@ -1,6 +1,7 @@
 import { type Component, createEffect, createSignal } from 'solid-js';
 import { useMosaicProcessor } from '../hooks/useMosaicProcessor';
 import type { MosaicSettings } from './controlsPanel.tsx';
+import type { ImageData } from './uploadZone.tsx';
 
 interface CanvasRendererProps {
   imageData: ImageData;

@@ -4,6 +4,7 @@ import ControlsPanel, {
   type MosaicSettings,
 } from './components/controlsPanel.tsx';
 import UploadZone from './components/uploadZone.tsx';
+import type { ImageData } from './components/uploadZone.tsx';
 import './App.css';
 
 function App() {
