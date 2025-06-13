@@ -3,8 +3,9 @@ import CanvasRenderer from './components/CanvasRenderer.tsx';
 import ControlsPanel, {
   type MosaicSettings,
 } from './components/controlsPanel.tsx';
-import UploadZone from './components/uploadZone.tsx';
 import type { ImageData } from './components/uploadZone.tsx';
+import UploadZone from './components/uploadZone.tsx';
+import { hexToRGBA } from './utils.ts';
 import './App.css';
 
 function App() {
@@ -13,7 +14,12 @@ function App() {
     size: 8,
     spacing: 1,
     shape: 'square',
+    backgroundColor: '#ffffff',
+    opacity: 255,
   });
+
+  let computedColor = () =>
+    hexToRGBA(settings().backgroundColor, settings().opacity);
 
   const handleImageUpload = (data: ImageData) => {
     setImageData(data);
@@ -36,9 +42,14 @@ function App() {
         <>
           <ControlsPanel
             settings={settings()}
+            computedColor={computedColor()}
             onSettingsChange={updateSettings}
           />
-          <CanvasRenderer imageData={imageData()!} settings={settings()} />
+          <CanvasRenderer
+            imageData={imageData()!}
+            settings={settings()}
+            computedColor={computedColor()}
+          />
         </>
       )}
     </div>

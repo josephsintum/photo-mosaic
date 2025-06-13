@@ -5,6 +5,7 @@ export const useMosaicProcessor = () => {
     canvas: HTMLCanvasElement,
     image: HTMLImageElement,
     settings: MosaicSettings,
+    computedColor: string,
   ): Promise<void> => {
     return new Promise(resolve => {
       requestAnimationFrame(() => {
@@ -15,7 +16,8 @@ export const useMosaicProcessor = () => {
         canvas.height = image.height;
 
         // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = computedColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Create temporary canvas for pixel sampling
         const tempCanvas = document.createElement('canvas');

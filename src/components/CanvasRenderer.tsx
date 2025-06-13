@@ -6,6 +6,7 @@ import type { ImageData } from './uploadZone.tsx';
 interface CanvasRendererProps {
   imageData: ImageData;
   settings: MosaicSettings;
+  computedColor: string
 }
 
 const CanvasRenderer: Component<CanvasRendererProps> = props => {
@@ -18,7 +19,7 @@ const CanvasRenderer: Component<CanvasRendererProps> = props => {
     if (canvasRef && props.imageData) {
       setProcessing(true);
 
-      processMosaic(canvasRef, props.imageData.image, props.settings).finally(
+      processMosaic(canvasRef, props.imageData.image, props.settings, props.computedColor).finally(
         () => {
           setProcessing(false);
         },

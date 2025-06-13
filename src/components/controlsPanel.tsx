@@ -4,11 +4,14 @@ export interface MosaicSettings {
   size: number;
   spacing: number;
   shape: 'square' | 'circle';
+  backgroundColor: string;
+  opacity: number;
 }
 
 interface ControlsPanelProps {
   settings: MosaicSettings;
   onSettingsChange: (settings: Partial<MosaicSettings>) => void;
+  computedColor: string;
 }
 
 const ControlsPanel: Component<ControlsPanelProps> = props => {
@@ -49,6 +52,35 @@ const ControlsPanel: Component<ControlsPanelProps> = props => {
             }
           />
           <span class="value-display">{props.settings.spacing}</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Background Color</label>
+        <div class="control-row">
+          <input
+            type="color"
+            name="head"
+            value={props.settings.backgroundColor}
+            onInput={e =>
+              props.onSettingsChange({
+                backgroundColor: e.target.value,
+              })
+            }
+          />
+          <input
+            type="range"
+            class="slider"
+            min="0"
+            max="255"
+            value={props.settings.opacity}
+            onInput={e =>
+              props.onSettingsChange({
+                opacity: parseInt(e.target.value),
+              })
+            }
+          />
+          <span class="value-display">{props.computedColor}</span>
         </div>
       </div>
 
