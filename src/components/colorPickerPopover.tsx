@@ -12,7 +12,14 @@ export function ColorPickerPopover(props: {
   return (
     <>
       <Popover>
-        <PopoverTrigger>Open</PopoverTrigger>
+        <PopoverTrigger asChild>
+          <div className="flex items-center space-x-4 rounded-lg border-2 border-gray-300 p-1 shadow-md">
+            <div
+              style={{ backgroundColor: props.color }}
+              className="h-6 w-6 rounded-sm"
+            ></div>
+          </div>
+        </PopoverTrigger>
         <PopoverContent>
           <RgbaStringColorPicker
             color={props.color}

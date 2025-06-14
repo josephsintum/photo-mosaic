@@ -12,7 +12,7 @@ const App: React.FC = () => {
     size: 8,
     spacing: 1,
     shape: 'square',
-    color: 'rgba(0, 0, 0, 0.2)',
+    color: 'rgba(255, 255, 255, 1)',
   });
 
   const handleImageUpload = useCallback((data: ImageData) => {
@@ -24,22 +24,22 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="container">
-      <header className="header">
-        <h1>Image Mosaic Generator</h1>
+    <div className="max-w-4xl p-8">
+      <header className="mb-4 space-y-2 text-gray-100">
+        <h1 className="text-4xl">Image Mosaic Generator</h1>
         <p>Upload an image and create beautiful mosaic effects</p>
       </header>
 
       <UploadZone onImageUpload={handleImageUpload} />
 
       {imageData && (
-        <>
+        <div className="flex flex-col gap-y-4">
           <ControlsPanel
             settings={settings}
             onSettingsChange={updateSettings}
           />
           <CanvasRenderer imageData={imageData} settings={settings} />
-        </>
+        </div>
       )}
     </div>
   );
