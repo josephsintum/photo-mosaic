@@ -6,13 +6,11 @@ import type { ImageData } from './uploadZone.tsx';
 interface CanvasRendererProps {
   imageData: ImageData;
   settings: MosaicSettings;
-  computedColor: string;
 }
 
 const CanvasRenderer: React.FC<CanvasRendererProps> = ({
   imageData,
   settings,
-  computedColor,
 }) => {
   const [processing, setProcessing] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -22,16 +20,13 @@ const CanvasRenderer: React.FC<CanvasRendererProps> = ({
     if (canvasRef.current && imageData) {
       setProcessing(true);
 
-      processMosaic(
-        canvasRef.current,
-        imageData.image,
-        settings,
-        computedColor,
-      ).finally(() => {
-        setProcessing(false);
-      });
+      processMosaic(canvasRef.current, imageData.image, settings).finally(
+        () => {
+          setProcessing(false);
+        },
+      );
     }
-  }, [imageData, settings, computedColor, processMosaic]);
+  }, [imageData, settings, processMosaic]);
 
   return (
     <div className="canvas-container">

@@ -6,19 +6,14 @@ import ControlsPanel, {
 import type { ImageData } from './components/uploadZone.tsx';
 import UploadZone from './components/uploadZone.tsx';
 
-import { hexToRGBA } from './utils';
-
 const App: React.FC = () => {
   const [imageData, setImageData] = useState<ImageData | null>(null);
   const [settings, setSettings] = useState<MosaicSettings>({
     size: 8,
     spacing: 1,
     shape: 'square',
-    backgroundColor: '#ffffff',
-    opacity: 1,
+    color: 'rgba(0, 0, 0, 0.2)',
   });
-
-  const computedColor = hexToRGBA(settings.backgroundColor, settings.opacity);
 
   const handleImageUpload = useCallback((data: ImageData) => {
     setImageData(data);
@@ -41,14 +36,9 @@ const App: React.FC = () => {
         <>
           <ControlsPanel
             settings={settings}
-            computedColor={computedColor}
             onSettingsChange={updateSettings}
           />
-          <CanvasRenderer
-            imageData={imageData}
-            settings={settings}
-            computedColor={computedColor}
-          />
+          <CanvasRenderer imageData={imageData} settings={settings} />
         </>
       )}
     </div>
