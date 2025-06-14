@@ -1,4 +1,4 @@
-import { type Component, createSignal } from 'solid-js';
+import React, { useCallback, useRef, useState } from 'react';
 
 export interface ImageData {
   file: File;
@@ -11,78 +11,97 @@ interface UploadZoneProps {
   onImageUpload: (data: ImageData) => void;
 }
 
-const UploadZone: Component<UploadZoneProps> = props => {
-  const [dragOver, setDragOver] = createSignal(false);
-  let fileInputRef: HTMLInputElement | undefined;
+const UploadZone: React.FC<UploadZoneProps> = ({ onImageUpload }) => {
+  const [dragOver, setDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const processFile = async (file: File): Promise<void> => {
-    if (!file.type.startsWith('image/')) return;
+  const processFile = useCallback(
+    async (file: File): Promise<void> => {
+      if (!file.type.startsWith('image/')) return;
 
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const img = new Image();
-        img.onload = () => {
-          const imageData: ImageData = {
-            file,
-            image: img,
-            width: img.width,
-            height: img.height,
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            const imageData: ImageData = {
+              file,
+              image: img,
+              width: img.width,
+              height: img.height,
+            };
+            onImageUpload(imageData);
+            resolve();
           };
-          props.onImageUpload(imageData);
-          resolve();
+          img.onerror = reject;
+          img.src = e.target?.result as string;
         };
-        img.onerror = reject;
-        img.src = e.target?.result as string;
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    },
+    [onImageUpload],
+  );
 
-  const handleFileSelect = (file: File) => {
-    processFile(file).catch(console.error);
-  };
+  const handleFileSelect = useCallback(
+    (file: File) => {
+      processFile(file).catch(console.error);
+    },
+    [processFile],
+  );
 
-  const handleDrop = (e: DragEvent) => {
-    e.preventDefault();
-    setDragOver(false);
-    const files = e.dataTransfer?.files;
-    if (files && files.length > 0) {
-      handleFileSelect(files[0]);
-    }
-  };
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setDragOver(false);
+      const files = e.dataTransfer?.files;
+      if (files && files.length > 0) {
+        handleFileSelect(files[0]);
+      }
+    },
+    [handleFileSelect],
+  );
 
-  const handleDragOver = (e: DragEvent) => {
+  const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setDragOver(true);
-  };
+  }, []);
 
-  const handleDragLeave = (e: DragEvent) => {
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setDragOver(false);
-  };
+  }, []);
+
+  const handleClick = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  const handleFileChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) handleFileSelect(file);
+    },
+    [handleFileSelect],
+  );
 
   return (
     <div
-      class={`upload-zone ${dragOver() ? 'drag-over' : ''}`}
-      onClick={() => fileInputRef?.click()}
+      className={`upload-zone ${dragOver ? 'drag-over' : ''}`}
+      onClick={handleClick}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
-      <div class="upload-icon">📸</div>
-      <div class="upload-text">Click to upload or drag & drop an image</div>
+      <div className="upload-icon">📸</div>
+      <div className="upload-text">Click to upload or drag & drop an image</div>
       <div>Supports JPG, PNG, GIF formats</div>
       <input
         ref={fileInputRef}
         type="file"
-        class="upload-input"
+        className="upload-input"
         accept="image/*"
-        onChange={e => {
-          const file = e.target.files?.[0];
-          if (file) handleFileSelect(file);
-        }}
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
       />
     </div>
   );

@@ -1,15 +1,16 @@
-import { createSignal } from 'solid-js';
-import CanvasRenderer from './components/CanvasRenderer.tsx';
+import React, { useCallback, useState } from 'react';
+import CanvasRenderer from './components/canvasRenderer.tsx';
 import ControlsPanel, {
   type MosaicSettings,
 } from './components/controlsPanel.tsx';
 import type { ImageData } from './components/uploadZone.tsx';
 import UploadZone from './components/uploadZone.tsx';
-import { hexToRGBA } from './utils.ts';
 
-function App() {
-  const [imageData, setImageData] = createSignal<ImageData | null>(null);
-  const [settings, setSettings] = createSignal<MosaicSettings>({
+import { hexToRGBA } from './utils';
+
+const App: React.FC = () => {
+  const [imageData, setImageData] = useState<ImageData | null>(null);
+  const [settings, setSettings] = useState<MosaicSettings>({
     size: 8,
     spacing: 1,
     shape: 'square',
@@ -17,42 +18,41 @@ function App() {
     opacity: 1,
   });
 
-  let computedColor = () =>
-    hexToRGBA(settings().backgroundColor, settings().opacity);
+  const computedColor = hexToRGBA(settings.backgroundColor, settings.opacity);
 
-  const handleImageUpload = (data: ImageData) => {
+  const handleImageUpload = useCallback((data: ImageData) => {
     setImageData(data);
-  };
+  }, []);
 
-  const updateSettings = (newSettings: Partial<MosaicSettings>) => {
+  const updateSettings = useCallback((newSettings: Partial<MosaicSettings>) => {
     setSettings(prev => ({ ...prev, ...newSettings }));
-  };
+  }, []);
 
   return (
-    <div class="container">
-      <header class="header">
+    <div className="container">
+      <header className="header">
         <h1>Image Mosaic Generator</h1>
         <p>Upload an image and create beautiful mosaic effects</p>
       </header>
 
       <UploadZone onImageUpload={handleImageUpload} />
 
-      {imageData() && (
+      {imageData && (
         <>
           <ControlsPanel
-            settings={settings()}
-            computedColor={computedColor()}
+            settings={settings}
+            computedColor={computedColor}
             onSettingsChange={updateSettings}
           />
           <CanvasRenderer
-            imageData={imageData()!}
-            settings={settings()}
-            computedColor={computedColor()}
+            imageData={imageData}
+            settings={settings}
+            computedColor={computedColor}
           />
         </>
       )}
     </div>
   );
-}
+};
 
 export default App;
