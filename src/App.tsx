@@ -6,7 +6,6 @@ import ControlsPanel, {
 import type { ImageData } from './components/uploadZone.tsx';
 import UploadZone from './components/uploadZone.tsx';
 import { hexToRGBA } from './utils.ts';
-import './App.css';
 
 function App() {
   const [imageData, setImageData] = createSignal<ImageData | null>(null);
