@@ -72,11 +72,11 @@ const ControlsPanel: Component<ControlsPanelProps> = props => {
             type="range"
             class="slider"
             min="0"
-            max="255"
-            value={props.settings.opacity}
+            max="10"
+            value={props.settings.opacity * 10}
             onInput={e =>
               props.onSettingsChange({
-                opacity: parseInt(e.target.value),
+                opacity: parseInt(e.target.value) / 10,
               })
             }
           />

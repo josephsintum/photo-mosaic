@@ -1,6 +1,6 @@
 export function hexToRGBA(hex: string, opacity: number) {
   if (opacity < 0) opacity = 0;
-  else if (opacity > 255) opacity = 255;
+  else if (opacity > 1) opacity = 1;
 
   hex = hex.replace('#', '');
 

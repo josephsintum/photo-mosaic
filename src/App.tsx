@@ -15,7 +15,7 @@ function App() {
     spacing: 1,
     shape: 'square',
     backgroundColor: '#ffffff',
-    opacity: 255,
+    opacity: 1,
   });
 
   let computedColor = () =>
