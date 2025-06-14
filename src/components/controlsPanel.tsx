@@ -1,5 +1,5 @@
+import { ColorPickerPopover } from "@/components/colorPickerPopover.tsx";
 import React from 'react';
-import { RgbaStringColorPicker } from 'react-colorful';
 
 export interface MosaicSettings {
   size: number;
@@ -60,7 +60,7 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({
       <div className="control-group">
         <label className="control-label">Background Color 2</label>
         <div className="control-row">
-          <RgbaStringColorPicker
+          <ColorPickerPopover
             color={settings.color}
             onChange={newColor => onSettingsChange({ color: newColor })}
           />
@@ -90,3 +90,4 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({
 };
 
 export default ControlsPanel;
+
