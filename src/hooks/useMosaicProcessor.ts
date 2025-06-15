@@ -49,20 +49,33 @@ export const useMosaicProcessor = () => {
               x += settings.size + settings.spacing
             ) {
               // Sample pixel color from center of mosaic tile
-              const centerX = Math.min(
-                x + Math.floor(settings.size / 2),
-                image.width - 1,
-              );
-              const centerY = Math.min(
-                y + Math.floor(settings.size / 2),
-                image.height - 1,
-              );
-              const pixelIndex = (centerY * image.width + centerX) * 4;
+              let r = 0,
+                g = 0,
+                b = 0,
+                a = 0;
+              let count = 0;
 
-              const r = pixels[pixelIndex];
-              const g = pixels[pixelIndex + 1];
-              const b = pixels[pixelIndex + 2];
-              const a = pixels[pixelIndex + 3] / 255;
+              for (let dy = 0; dy < settings.size; dy++) {
+                for (let dx = 0; dx < settings.size; dx++) {
+                  const px = x + dx;
+                  const py = y + dy;
+
+                  // Make sure we're within bounds
+                  if (px >= image.width || py >= image.height) continue;
+
+                  const index = (py * image.width + px) * 4;
+                  r += pixels[index];
+                  g += pixels[index + 1];
+                  b += pixels[index + 2];
+                  a += pixels[index + 3];
+                  count++;
+                }
+              }
+
+              r = Math.round(r / count);
+              g = Math.round(g / count);
+              b = Math.round(b / count);
+              a = a / count / 255; // keep alpha between 0–1
 
               ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
 
