@@ -24,23 +24,25 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="max-w-4xl p-8">
-      <header className="mb-4 space-y-2 text-gray-100">
-        <h1 className="text-4xl">Image Mosaic Generator</h1>
-        <p>Upload an image and create beautiful mosaic effects</p>
+    <div className="max-w-4xl space-y-4 p-8">
+      <header className="mb-4 space-y-1 text-gray-100">
+        <h1 className="text-4xl font-bold">Image Mosaic Generator</h1>
+        <p className="font-light">
+          Upload an image and create beautiful mosaic effects
+        </p>
       </header>
 
-      <UploadZone onImageUpload={handleImageUpload} />
-
       {imageData && (
-        <div className="flex flex-col gap-y-4">
+        <>
           <ControlsPanel
             settings={settings}
             onSettingsChange={updateSettings}
           />
           <CanvasRenderer imageData={imageData} settings={settings} />
-        </div>
+        </>
       )}
+
+      <UploadZone onImageUpload={handleImageUpload} />
     </div>
   );
 };

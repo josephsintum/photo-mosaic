@@ -86,23 +86,30 @@ const UploadZone: React.FC<UploadZoneProps> = ({ onImageUpload }) => {
 
   return (
     <div
-      className={`upload-zone ${dragOver ? 'drag-over' : ''}`}
+      className={
+        'cursor-pointer rounded-2xl bg-white p-8 text-center shadow-xl hover:bg-white'
+      }
       onClick={handleClick}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
-      <div className="upload-icon">📸</div>
-      <div className="upload-text">Click to upload or drag & drop an image</div>
-      <div>Supports JPG, PNG, GIF formats</div>
-      <input
-        ref={fileInputRef}
-        type="file"
-        className="upload-input"
-        accept="image/*"
-        onChange={handleFileChange}
-        style={{ display: 'none' }}
-      />
+      <div
+        className={`rounded-2xl border-4 border-dashed border-gray-300 p-8 transition-all duration-300 ease-in-out hover:border-purple-100 ${dragOver ? 'scale-[1.02] border-purple-300 bg-purple-200' : ''}`}
+      >
+        <div className="mb-4 text-5xl">🌁</div>
+        <div className="text-xl font-bold">Drop your image here, or browse</div>
+        <span className="text-sm font-light text-gray-400">
+          Supports JPG, PNG, GIF formats
+        </span>
+        <input
+          ref={fileInputRef}
+          type="file"
+          className="hidden"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+      </div>
     </div>
   );
 };

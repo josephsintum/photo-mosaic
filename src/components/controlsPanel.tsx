@@ -44,7 +44,7 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({
         <Label>Spacing</Label>
         <div className="flex items-center space-x-4">
           <Slider
-            min={1}
+            min={0}
             max={10}
             step={1}
             value={[settings.spacing]}

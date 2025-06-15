@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button.tsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { useMosaicProcessor } from '../hooks/useMosaicProcessor';
 import type { MosaicSettings } from './controlsPanel.tsx';
@@ -28,12 +29,31 @@ const CanvasRenderer: React.FC<CanvasRendererProps> = ({
     }
   }, [imageData, settings, processMosaic]);
 
+  const handleDownload = () => {
+    const canvas = document.getElementById('mosaic-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mosaic.png'; // or 'mosaic.jpg'
+      a.click();
+      URL.revokeObjectURL(url); // Cleanup
+    }, 'image/png'); // Can change to 'image/jpeg'
+  };
+
   return (
     <div className="canvas-container">
       <div className="canvas-wrapper">
-        <canvas ref={canvasRef} />
+        <canvas ref={canvasRef} id="mosaic-canvas" />
       </div>
-      {processing && <p className="processing">Processing mosaic...</p>}
+      {processing ? (
+        <p className="processing">Processing mosaic...</p>
+      ) : (
+        <Button variant="outline" className="ml-auto" onClick={handleDownload}>Download</Button>
+      )}
     </div>
   );
 };
