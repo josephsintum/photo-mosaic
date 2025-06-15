@@ -30,10 +30,12 @@ const CanvasRenderer: React.FC<CanvasRendererProps> = ({
   }, [imageData, settings, processMosaic]);
 
   const handleDownload = () => {
-    const canvas = document.getElementById('mosaic-canvas') as HTMLCanvasElement;
+    const canvas = document.getElementById(
+      'mosaic-canvas',
+    ) as HTMLCanvasElement;
     if (!canvas) return;
 
-    canvas.toBlob((blob) => {
+    canvas.toBlob(blob => {
       if (!blob) return;
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -52,7 +54,9 @@ const CanvasRenderer: React.FC<CanvasRendererProps> = ({
       {processing ? (
         <p className="processing">Processing mosaic...</p>
       ) : (
-        <Button variant="outline" className="ml-auto" onClick={handleDownload}>Download</Button>
+        <Button variant="outline" className="ml-auto" onClick={handleDownload}>
+          Download
+        </Button>
       )}
     </div>
   );
