@@ -26,7 +26,7 @@ const App: React.FC = () => {
   return (
     <div className="mx-auto max-w-4xl space-y-4 p-8">
       <header className="mb-4 space-y-1 text-gray-100">
-        <h1 className="text-4xl font-bold">Image Mosaic Generator</h1>
+        <h1 className="text-4xl font-bold">Photo Mosaic</h1>
         <p className="font-light">
           Upload an image and create beautiful mosaic effects.{' '}
           <a
