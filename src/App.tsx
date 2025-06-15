@@ -28,7 +28,13 @@ const App: React.FC = () => {
       <header className="mb-4 space-y-1 text-gray-100">
         <h1 className="text-4xl font-bold">Image Mosaic Generator</h1>
         <p className="font-light">
-          Upload an image and create beautiful mosaic effects
+          Upload an image and create beautiful mosaic effects.{' '}
+          <a
+            className="inline-block font-light underline"
+            href="https://github.com/josephsintum/photo-mosaic"
+          >
+            Source Code - Github
+          </a>
         </p>
       </header>
 
