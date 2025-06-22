@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button.tsx';
 import React, { useEffect, useRef, useState } from 'react';
-import { useMosaicProcessor } from '../hooks/useMosaicProcessor';
+import { useWebGLMosaicProcessor } from '../hooks/useMosaicProcessor';
 import type { MosaicSettings } from './controlsPanel.tsx';
 import type { ImageData } from './uploadZone.tsx';
 
@@ -15,7 +15,7 @@ const CanvasRenderer: React.FC<CanvasRendererProps> = ({
 }) => {
   const [processing, setProcessing] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { processMosaic } = useMosaicProcessor();
+  const { processMosaic } = useWebGLMosaicProcessor();
 
   useEffect(() => {
     if (canvasRef.current && imageData) {
