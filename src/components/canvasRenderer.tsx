@@ -27,7 +27,7 @@ const CanvasRenderer: React.FC<CanvasRendererProps> = ({
         },
       );
     }
-  }, [imageData, settings, processMosaic]);
+  }, [imageData, settings]);
 
   const handleDownload = () => {
     const canvas = document.getElementById(
