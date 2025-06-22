@@ -4,11 +4,14 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { RgbaStringColorPicker } from 'react-colorful';
+import { useDebouncyEffect } from 'use-debouncy';
 
 export function ColorPickerPopover(props: {
   color: string;
   onChange: (newColor: string) => void;
 }) {
+  useDebouncyEffect(() => props.onChange(props.color), 200, [props.color]);
+
   return (
     <>
       <Popover>
